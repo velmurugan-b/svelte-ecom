@@ -1,18 +1,23 @@
 <script lang="ts">
-	import ProductCard from '$lib/components/ProductCard.svelte';
-	import { products, categories } from '$lib/data/products';
-	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import ProductCard from '../../lib/components/ProductCard.svelte';
+	import { products, categories } from '../../lib/data/products';
 
 	let searchTerm = '';
-	let selectedCategory = $derived($page.url.searchParams.get('category'));
+	let selectedCategory = '';
+
+	onMount(() => {
+		const params = new URLSearchParams(window.location.search);
+		selectedCategory = params.get('category') ?? '';
+	});
 
 	// Reactive filtered products
-	$: filteredProducts = products.filter(product => {
+	$: filteredProducts = products.filter(p => {
 		const matchesSearch = 
-			product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			product.description.toLowerCase().includes(searchTerm.toLowerCase());
+			p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			p.description.toLowerCase().includes(searchTerm.toLowerCase());
 
-		const matchesCategory = !selectedCategory || product.category === selectedCategory;
+		const matchesCategory = !selectedCategory || p.category === selectedCategory;
 
 		return matchesSearch && matchesCategory;
 	});
