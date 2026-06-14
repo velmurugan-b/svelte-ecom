@@ -1,24 +1,31 @@
 <script lang="ts">
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import { products, categories } from '$lib/data/products';
-	
+	import { page } from '$app/stores';
+
 	let searchTerm = '';
-	let selectedCategory: string | null = null;
+	let selectedCategory = $derived($page.url.searchParams.get('category'));
 
 	// Reactive filtered products
 	$: filteredProducts = products.filter(product => {
 		const matchesSearch = 
 			product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			product.description.toLowerCase().includes(searchTerm.toLowerCase());
-		
+
 		const matchesCategory = !selectedCategory || product.category === selectedCategory;
-		
+
 		return matchesSearch && matchesCategory;
 	});
 </script>
 
 <div class="max-w-7xl mx-auto px-6 py-12">
-	<h1 class="text-4xl font-bold mb-8">Shop All Products</h1>
+	<h1 class="text-4xl font-bold mb-8">
+		{#if selectedCategory}
+			{selectedCategory} Products
+		{:else}
+			All Products
+		{/if}
+	</h1>
 
 	<!-- Search Bar -->
 	<input
@@ -31,16 +38,24 @@
 	<!-- Category Filters -->
 	<div class="flex flex-wrap gap-3 mb-10">
 		<button
-			on:click={() => selectedCategory = null}
+			on:click={() => {
+				const url = new URL(window.location.href);
+				url.searchParams.delete('category');
+				window.history.pushState({}, '', url);
+			}}
 			class={`px-6 py-3 rounded-2xl font-medium transition-all ${
-				selectedCategory === null ? 'bg-indigo-600 text-white shadow' : 'bg-white border hover:bg-gray-50'
+				!selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-white border hover:bg-gray-50'
 			}`}>
 			All
 		</button>
 		
 		{#each categories as category}
 			<button
-				on:click={() => selectedCategory = category}
+				on:click={() => {
+					const url = new URL(window.location.href);
+					url.searchParams.set('category', category);
+					window.history.pushState({}, '', url);
+				}}
 				class={`px-6 py-3 rounded-2xl font-medium transition-all ${
 					selectedCategory === category ? 'bg-indigo-600 text-white shadow' : 'bg-white border hover:bg-gray-50'
 				}`}>
@@ -57,7 +72,12 @@
 		<div class="text-center py-20">
 			<p class="text-2xl text-gray-400">No products found</p>
 			<button 
-				on:click={() => { searchTerm = ''; selectedCategory = null; }}
+				on:click={() => {
+					searchTerm = '';
+					const url = new URL(window.location.href);
+					url.searchParams.delete('category');
+					window.history.pushState({}, '', url);
+				}}
 				class="mt-6 text-indigo-600 underline">
 				Clear Filters
 			</button>
