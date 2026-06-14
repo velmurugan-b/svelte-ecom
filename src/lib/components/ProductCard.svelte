@@ -14,7 +14,7 @@
 				class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" 
 			/>
 			<div class="absolute top-4 right-4 bg-white px-4 py-1 rounded-full font-bold text-indigo-600 shadow">
-				${product.price}
+				₹{product.price}
 			</div>
 		</div>
 		

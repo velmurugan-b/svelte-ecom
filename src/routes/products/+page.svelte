@@ -1,15 +1,13 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import ProductCard from '../../lib/components/ProductCard.svelte';
 	import { products, categories } from '../../lib/data/products';
 
 	let searchTerm = '';
-	let selectedCategory = '';
 
-	onMount(() => {
-		const params = new URLSearchParams(window.location.search);
-		selectedCategory = params.get('category') ?? '';
-	});
+	// Reactively get category from URL
+	$: selectedCategory = $page.url.searchParams.get('category') ?? '';
 
 	// Reactive filtered products
 	$: filteredProducts = products.filter(p => {
@@ -21,6 +19,14 @@
 
 		return matchesSearch && matchesCategory;
 	});
+
+	function setCategory(category: string) {
+		if (category) {
+			goto(`/products?category=${category}`);
+		} else {
+			goto('/products');
+		}
+	}
 </script>
 
 <div class="max-w-7xl mx-auto px-6 py-12">
@@ -43,11 +49,7 @@
 	<!-- Category Filters -->
 	<div class="flex flex-wrap gap-3 mb-10">
 		<button
-			on:click={() => {
-				const url = new URL(window.location.href);
-				url.searchParams.delete('category');
-				window.history.pushState({}, '', url);
-			}}
+			on:click={() => setCategory('')}
 			class={`px-6 py-3 rounded-2xl font-medium transition-all ${
 				!selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-white border hover:bg-gray-50'
 			}`}>
@@ -56,11 +58,7 @@
 		
 		{#each categories as category}
 			<button
-				on:click={() => {
-					const url = new URL(window.location.href);
-					url.searchParams.set('category', category);
-					window.history.pushState({}, '', url);
-				}}
+				on:click={() => setCategory(category)}
 				class={`px-6 py-3 rounded-2xl font-medium transition-all ${
 					selectedCategory === category ? 'bg-indigo-600 text-white shadow' : 'bg-white border hover:bg-gray-50'
 				}`}>
@@ -79,9 +77,7 @@
 			<button 
 				on:click={() => {
 					searchTerm = '';
-					const url = new URL(window.location.href);
-					url.searchParams.delete('category');
-					window.history.pushState({}, '', url);
+					setCategory('');
 				}}
 				class="mt-6 text-indigo-600 underline">
 				Clear Filters

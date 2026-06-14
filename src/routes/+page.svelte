@@ -36,7 +36,7 @@
 		<div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 text-gray-600">
 			<div class="flex items-center gap-3">
 				<Truck class="w-6 h-6" />
-				<span class="font-medium">Free Shipping on Orders $100+</span>
+				<span class="font-medium">Free Shipping on Orders ₹5000+</span>
 			</div>
 			<div class="flex items-center gap-3">
 				<Shield class="w-6 h-6" />

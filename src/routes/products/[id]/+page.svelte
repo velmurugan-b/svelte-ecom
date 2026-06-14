@@ -17,7 +17,7 @@
 		<!-- Product Details -->
 		<div class="flex flex-col">
 			<h1 class="text-4xl font-bold mb-4">{product.name}</h1>
-			<p class="text-5xl font-bold text-indigo-600 mb-6">${product.price}</p>
+			<p class="text-5xl font-bold text-indigo-600 mb-6">₹{product.price}</p>
 			
 			<p class="text-lg text-gray-600 mb-10 leading-relaxed">
 				{product.description}

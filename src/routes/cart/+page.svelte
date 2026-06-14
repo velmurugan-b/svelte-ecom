@@ -40,7 +40,7 @@
 					<img src={item.image} class="w-28 h-28 object-cover rounded-2xl" alt={item.name} />
 					<div class="flex-1">
 						<h3 class="font-semibold text-lg">{item.name}</h3>
-						<p class="text-2xl font-bold text-indigo-600">${item.price}</p>
+						<p class="text-2xl font-bold text-indigo-600">₹{item.price}</p>
 						
 						<div class="flex items-center gap-4 mt-4">
 							<button on:click={() => updateQuantity(item.id, item.quantity - 1)} class="w-9 h-9 border rounded-lg hover:bg-gray-100">-</button>
@@ -50,7 +50,7 @@
 						</div>
 					</div>
 					<div class="text-right font-bold text-xl self-center">
-						${(item.price * item.quantity).toFixed(2)}
+						₹{(item.price * item.quantity).toFixed(2)}
 					</div>
 				</div>
 			{/each}
@@ -58,7 +58,7 @@
 
 		<div class="flex justify-between items-center text-3xl font-bold border-t pt-10">
 			<span>Total</span>
-			<span>${$cartStore.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</span>
+			<span>₹{$cartStore.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</span>
 		</div>
 
 		<button 
