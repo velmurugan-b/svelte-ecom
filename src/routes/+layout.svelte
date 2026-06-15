@@ -1,12 +1,16 @@
 <script lang="ts">
 	import '../app.css';
-	import { ShoppingCart, User, Menu, X, ChevronDown, Heart, Mail, MapPin, Phone, ArrowUpRight } from 'lucide-svelte';
+	import { ShoppingCart, User, Menu, X, ChevronDown, Heart, Mail, MapPin, Phone, ArrowUpRight, House, LayoutGrid, Tag, Sparkles, ShoppingBag } from 'lucide-svelte';
 	import { cartStore } from '$lib/stores/cart';
 	import { onMount } from 'svelte';
 	import { products, categories } from '$lib/data/products';
+	import { page } from '$app/stores';
 
 	let mobileMenuOpen = false;
 	let showCategories = false;
+
+	$: currentPath = $page.url.pathname;
+	$: hasCategoryFilter = $page.url.searchParams.has('category');
 
 	const footerLinks = {
 		shop: ['All Products', 'New Arrivals', 'Best Sellers', 'Deals & Offers', 'Gift Cards'],
@@ -37,27 +41,32 @@
 						<div class="absolute inset-0 bg-gradient-to-br from-yellow-300 to-amber-400 rounded-xl -rotate-3 group-hover:rotate-0 transition-transform duration-300 opacity-0 group-hover:opacity-100"></div>
 						<div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
 							<svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-								<line x1="3" y1="6" x2="21" y2="6" />
-								<path d="M16 10a4 4 0 0 1-8 0" />
+								<circle cx="9" cy="21" r="1" />
+								<circle cx="20" cy="21" r="1" />
+								<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+								<polyline points="12 10 15 13 18 10" />
 							</svg>
 						</div>
 					</div>
 					<div class="flex flex-col">
-						<span class="text-2xl font-black tracking-tight text-gray-900 leading-none">Ecom</span>
-						<span class="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase leading-none mt-0.5">Store</span>
+						<span class="text-2xl font-black tracking-tight text-gray-900 leading-none">Swift</span>
+						<span class="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase leading-none mt-0.5">Cart</span>
 					</div>
 				</a>
 
 				<!-- Desktop Navigation -->
 				<nav class="hidden md:flex items-center gap-10 text-sm font-bold tracking-wide">
-					<a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
+					<a href="/" class="flex items-center gap-2 transition-colors {currentPath === '/' ? 'text-indigo-600 border-b-2 border-indigo-600 pb-1' : 'hover:text-indigo-600'}">
+						<House size={18} />
+						Home
+					</a>
 					
 					<!-- Categories Dropdown -->
 					<div class="relative group">
 						<button 
 							on:click={() => showCategories = !showCategories}
-							class="flex items-center gap-1 font-bold hover:text-indigo-600 transition-colors">
+							class="flex items-center gap-2 font-bold transition-colors {hasCategoryFilter ? 'text-indigo-600' : 'hover:text-indigo-600'}">
+							<LayoutGrid size={18} />
 							Categories
 							<ChevronDown size={16} class="group-hover:rotate-180 transition-transform" />
 						</button>
@@ -69,7 +78,8 @@
 										<a 
 											href={`/products?category=${category}`}
 											on:click={() => showCategories = false}
-											class="hover:text-indigo-600 transition-colors py-1">
+											class="flex items-center gap-2 hover:text-indigo-600 transition-colors py-1">
+											<div class="w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0"></div>
 											{category}
 										</a>
 									{/each}
@@ -78,8 +88,14 @@
 						{/if}
 					</div>
 
-					<a href="/deals" class="hover:text-indigo-600 transition-colors">Deals</a>
-					<a href="/products" class="hover:text-indigo-600 transition-colors">New Arrivals</a>
+					<a href="/deals" class="flex items-center gap-2 transition-colors {currentPath === '/deals' ? 'text-indigo-600 border-b-2 border-indigo-600 pb-1' : 'hover:text-indigo-600'}">
+						<Tag size={18} />
+						Deals
+					</a>
+					<a href="/products" class="flex items-center gap-2 transition-colors {currentPath === '/products' && !hasCategoryFilter ? 'text-indigo-600 border-b-2 border-indigo-600 pb-1' : 'hover:text-indigo-600'}">
+						<Sparkles size={18} />
+						New Arrivals
+					</a>
 				</nav>
 
 				<!-- Right Side -->
@@ -128,19 +144,32 @@
 		{#if mobileMenuOpen}
 			<div class="md:hidden border-t bg-white">
 				<div class="px-6 py-8 flex flex-col gap-6 text-lg font-medium">
-					<a href="/" on:click={() => mobileMenuOpen = false}>Home</a>
-					<a href="/products" on:click={() => mobileMenuOpen = false}>Shop</a>
+					<a href="/" on:click={() => mobileMenuOpen = false} class="flex items-center gap-3 transition-colors {currentPath === '/' ? 'text-indigo-600 font-extrabold border-l-4 border-indigo-600 pl-2' : 'hover:text-indigo-600'}">
+						<House size={20} class="text-indigo-500" />
+						Home
+					</a>
+					<a href="/products" on:click={() => mobileMenuOpen = false} class="flex items-center gap-3 transition-colors {currentPath === '/products' ? 'text-indigo-600 font-extrabold border-l-4 border-indigo-600 pl-2' : 'hover:text-indigo-600'}">
+						<ShoppingBag size={20} class="text-indigo-500" />
+						Shop
+					</a>
 					
-					<div class="font-medium">Categories</div>
-					<div class="pl-4 flex flex-col gap-4 text-base">
+					<div class="flex items-center gap-3 font-medium text-gray-600">
+						<LayoutGrid size={20} class="text-indigo-500" />
+						Categories
+					</div>
+					<div class="pl-9 flex flex-col gap-4 text-base">
 						{#each categories as category}
-							<a href={`/products?category=${category}`} on:click={() => mobileMenuOpen = false}>
+							<a href={`/products?category=${category}`} on:click={() => mobileMenuOpen = false} class="flex items-center gap-2 hover:text-indigo-600 transition-colors">
+								<div class="w-1.5 h-1.5 rounded-full bg-gray-300 shrink-0"></div>
 								{category}
 							</a>
 						{/each}
 					</div>
 					
-					<a href="/deals" on:click={() => mobileMenuOpen = false}>Deals</a>
+					<a href="/deals" on:click={() => mobileMenuOpen = false} class="flex items-center gap-3 transition-colors {currentPath === '/deals' ? 'text-indigo-600 font-extrabold border-l-4 border-indigo-600 pl-2' : 'hover:text-indigo-600'}">
+						<Tag size={20} class="text-indigo-500" />
+						Deals
+					</a>
 				</div>
 			</div>
 		{/if}
@@ -173,15 +202,16 @@
 							<div class="absolute inset-0 bg-gradient-to-br from-yellow-300 to-amber-400 rounded-xl -rotate-3 group-hover:rotate-0 transition-transform duration-300 opacity-0 group-hover:opacity-100"></div>
 							<div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
 								<svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-									<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-									<line x1="3" y1="6" x2="21" y2="6" />
-									<path d="M16 10a4 4 0 0 1-8 0" />
+									<circle cx="9" cy="21" r="1" />
+									<circle cx="20" cy="21" r="1" />
+									<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+									<polyline points="12 10 15 13 18 10" />
 								</svg>
 							</div>
 						</div>
 						<div class="flex flex-col">
-							<span class="text-2xl font-black tracking-tight text-white leading-none">Ecom</span>
-							<span class="text-xs font-bold tracking-[0.2em] text-yellow-300 uppercase leading-none mt-0.5">Store</span>
+							<span class="text-2xl font-black tracking-tight text-white leading-none">Swift</span>
+							<span class="text-xs font-bold tracking-[0.2em] text-yellow-300 uppercase leading-none mt-0.5">Cart</span>
 						</div>
 					</a>
 					<p class="text-indigo-200/60 text-sm leading-relaxed max-w-xs">
@@ -265,11 +295,11 @@
 						</div>
 						<div class="flex items-center gap-2.5 text-indigo-200/50 text-xs">
 							<Mail size={14} class="text-emerald-400 shrink-0" />
-							<span>hello@ecomstore.com</span>
+							<span>hello@swiftcart.com</span>
 						</div>
 						<div class="flex items-center gap-2.5 text-indigo-200/50 text-xs">
 							<Phone size={14} class="text-emerald-400 shrink-0" />
-							<span>+91 1800-ECOM</span>
+							<span>+91 1800-SWIFT</span>
 						</div>
 					</div>
 				</div>
@@ -278,7 +308,7 @@
 			<!-- Bottom copyright bar -->
 			<div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
 				<p class="text-indigo-200/40 text-xs">
-					© 2024 EcomStore. All rights reserved.
+					© 2024 SwiftCart. All rights reserved.
 				</p>
 				<div class="flex items-center gap-6 text-indigo-200/40 text-xs">
 					<span class="hover:text-yellow-300 transition-colors cursor-pointer">Privacy Policy</span>

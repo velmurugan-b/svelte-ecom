@@ -18,9 +18,9 @@
 	<div class="absolute bottom-20 right-10 w-80 h-80 bg-indigo-500/20 rounded-full blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
 	<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-fuchsia-500/10 rounded-full blur-[150px]"></div>
 
-	<!-- Large decorative "ECOMSTORE" watermark -->
+	<!-- Large decorative "SWIFTCART" watermark -->
 	<div class="absolute right-0 top-1/2 -translate-y-1/2 text-[280px] md:text-[400px] font-black text-white/5 select-none leading-none tracking-tighter hidden md:block">
-		ECOM
+		SWIFT
 	</div>
 
 	<div class="relative max-w-7xl mx-auto px-6 pt-28 md:pt-32 pb-20">
@@ -230,7 +230,7 @@
 <!-- Why Choose Us -->
 <section class="bg-gray-50 py-20">
 	<div class="max-w-7xl mx-auto px-6">
-		<h2 class="text-4xl font-bold text-center mb-16">Why Shop With EcomStore?</h2>
+		<h2 class="text-4xl font-bold text-center mb-16">Why Shop With SwiftCart?</h2>
 		
 		<div class="grid md:grid-cols-3 gap-10">
 			<div class="text-center">
