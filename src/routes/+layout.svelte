@@ -1,12 +1,18 @@
 <script lang="ts">
 	import '../app.css';
-	import { ShoppingCart, User, Menu, X, ChevronDown } from 'lucide-svelte';
+	import { ShoppingCart, User, Menu, X, ChevronDown, Heart, Mail, MapPin, Phone, ArrowUpRight } from 'lucide-svelte';
 	import { cartStore } from '$lib/stores/cart';
 	import { onMount } from 'svelte';
 	import { products, categories } from '$lib/data/products';
 
 	let mobileMenuOpen = false;
 	let showCategories = false;
+
+	const footerLinks = {
+		shop: ['All Products', 'New Arrivals', 'Best Sellers', 'Deals & Offers', 'Gift Cards'],
+		support: ['Help Center', 'Track Order', 'Returns & Exchanges', 'Shipping Info', 'Contact Us'],
+		company: ['About Us', 'Careers', 'Press Kit', 'Blog', 'Sustainability']
+	};
 
 	onMount(() => {
 		const saved = localStorage.getItem('cart');
@@ -24,22 +30,34 @@
 		<div class="max-w-7xl mx-auto px-6">
 			<div class="flex justify-between items-center h-20">
 				<!-- Logo -->
-				<a href="/" class="flex items-center gap-3">
-					<div class="w-9 h-9 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl flex items-center justify-center">
-						<span class="text-white font-bold text-2xl">N</span>
+				<a href="/" class="flex items-center gap-3 group">
+					<!-- Modern creative logo icon -->
+					<div class="relative w-10 h-10">
+						<div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-violet-600 rounded-xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
+						<div class="absolute inset-0 bg-gradient-to-br from-yellow-300 to-amber-400 rounded-xl -rotate-3 group-hover:rotate-0 transition-transform duration-300 opacity-0 group-hover:opacity-100"></div>
+						<div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
+							<svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+								<line x1="3" y1="6" x2="21" y2="6" />
+								<path d="M16 10a4 4 0 0 1-8 0" />
+							</svg>
+						</div>
 					</div>
-					<span class="text-3xl font-bold tracking-tight text-gray-900">NovaStore</span>
+					<div class="flex flex-col">
+						<span class="text-2xl font-black tracking-tight text-gray-900 leading-none">Ecom</span>
+						<span class="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase leading-none mt-0.5">Store</span>
+					</div>
 				</a>
 
 				<!-- Desktop Navigation -->
-				<nav class="hidden md:flex items-center gap-10 text-sm font-medium">
+				<nav class="hidden md:flex items-center gap-10 text-sm font-bold tracking-wide">
 					<a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
 					
 					<!-- Categories Dropdown -->
 					<div class="relative group">
 						<button 
 							on:click={() => showCategories = !showCategories}
-							class="flex items-center gap-1 hover:text-indigo-600 transition-colors">
+							class="flex items-center gap-1 font-bold hover:text-indigo-600 transition-colors">
 							Categories
 							<ChevronDown size={16} class="group-hover:rotate-180 transition-transform" />
 						</button>
@@ -61,7 +79,7 @@
 					</div>
 
 					<a href="/deals" class="hover:text-indigo-600 transition-colors">Deals</a>
-					<a href="#" class="hover:text-indigo-600 transition-colors">New Arrivals</a>
+					<a href="/products" class="hover:text-indigo-600 transition-colors">New Arrivals</a>
 				</nav>
 
 				<!-- Right Side -->
@@ -129,4 +147,149 @@
 	</header>
 
 	<slot />
+
+	<!-- ===== CREATIVE FOOTER matching hero banner ===== -->
+	<footer class="relative bg-gradient-to-br from-[#0a0e27] via-[#14183e] to-[#1a1040] overflow-hidden">
+		<!-- Decorative grid overlay matching hero -->
+		<div class="absolute inset-0 opacity-[0.03]" 
+			 style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+		
+		<!-- Glowing orbs (subtle, like hero) -->
+		<div class="absolute top-40 -left-20 w-72 h-72 bg-violet-500/10 rounded-full blur-[100px]"></div>
+		<div class="absolute bottom-20 -right-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-[120px]"></div>
+
+		<!-- Top divider line with gradient -->
+		<div class="relative h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent"></div>
+
+		<div class="relative max-w-7xl mx-auto px-6 pt-20 pb-8">
+			<!-- Main footer grid -->
+			<div class="grid grid-cols-2 md:grid-cols-12 gap-10 md:gap-8 pb-16 border-b border-white/10">
+				<!-- Brand Column -->
+				<div class="col-span-2 md:col-span-4 space-y-6">
+					<a href="/" class="flex items-center gap-3 group">
+						<!-- Modern creative logo icon (matching header) -->
+						<div class="relative w-10 h-10">
+							<div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-violet-600 rounded-xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
+							<div class="absolute inset-0 bg-gradient-to-br from-yellow-300 to-amber-400 rounded-xl -rotate-3 group-hover:rotate-0 transition-transform duration-300 opacity-0 group-hover:opacity-100"></div>
+							<div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
+								<svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+									<line x1="3" y1="6" x2="21" y2="6" />
+									<path d="M16 10a4 4 0 0 1-8 0" />
+								</svg>
+							</div>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-2xl font-black tracking-tight text-white leading-none">Ecom</span>
+							<span class="text-xs font-bold tracking-[0.2em] text-yellow-300 uppercase leading-none mt-0.5">Store</span>
+						</div>
+					</a>
+					<p class="text-indigo-200/60 text-sm leading-relaxed max-w-xs">
+						Your premium destination for cutting-edge tech. We curate the finest gadgets and gear to elevate your digital life.
+					</p>
+					
+					<!-- Newsletter signup -->
+					<div class="space-y-3">
+						<p class="text-sm font-medium text-white/80">Stay in the loop</p>
+						<div class="flex gap-2">
+							<input 
+								type="email" 
+								placeholder="Enter your email"
+								class="flex-1 bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm text-white placeholder:text-indigo-300/40 focus:outline-none focus:border-yellow-300/50 transition-colors"
+							/>
+							<button class="bg-gradient-to-r from-yellow-300 to-amber-400 text-gray-900 rounded-xl px-4 py-3 font-semibold text-sm hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 shrink-0">
+								Subscribe
+							</button>
+						</div>
+					</div>
+
+					<!-- Social icons -->
+					<div class="flex items-center gap-3">
+						{#each ['𝕏', '𝓕', '𝓘', '𝓨'] as icon, i}
+							<div class="w-9 h-9 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-white/60 text-sm hover:bg-yellow-300 hover:text-gray-900 hover:border-yellow-300 transition-all duration-300 cursor-pointer">
+								{icon}
+							</div>
+						{/each}
+					</div>
+				</div>
+
+				<!-- Links Column 1: Shop -->
+				<div class="col-span-1 md:col-span-2 md:col-start-6 space-y-5">
+					<h4 class="text-sm font-bold text-white/90 uppercase tracking-widest">Shop</h4>
+					<ul class="space-y-3.5">
+						{#each footerLinks.shop as link}
+							<li>
+								<a href="/products" class="text-indigo-200/60 hover:text-yellow-300 text-sm transition-colors duration-200 inline-flex items-center gap-1 group">
+									{link}
+									<ArrowUpRight size={12} class="opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200" />
+								</a>
+							</li>
+						{/each}
+					</ul>
+				</div>
+
+				<!-- Links Column 2: Support -->
+				<div class="col-span-1 md:col-span-2 space-y-5">
+					<h4 class="text-sm font-bold text-white/90 uppercase tracking-widest">Support</h4>
+					<ul class="space-y-3.5">
+						{#each footerLinks.support as link}
+							<li>
+								<span class="text-indigo-200/60 hover:text-yellow-300 text-sm transition-colors duration-200 inline-flex items-center gap-1 group cursor-pointer">
+									{link}
+									<ArrowUpRight size={12} class="opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200" />
+								</span>
+							</li>
+						{/each}
+					</ul>
+				</div>
+
+				<!-- Links Column 3: Company -->
+				<div class="col-span-2 md:col-span-2 space-y-5">
+					<h4 class="text-sm font-bold text-white/90 uppercase tracking-widest">Company</h4>
+					<ul class="space-y-3.5">
+						{#each footerLinks.company as link}
+							<li>
+								<span class="text-indigo-200/60 hover:text-yellow-300 text-sm transition-colors duration-200 inline-flex items-center gap-1 group cursor-pointer">
+									{link}
+									<ArrowUpRight size={12} class="opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200" />
+								</span>
+							</li>
+						{/each}
+					</ul>
+
+					<!-- Contact info -->
+					<div class="pt-2 space-y-3">
+						<div class="flex items-center gap-2.5 text-indigo-200/50 text-xs">
+							<MapPin size={14} class="text-emerald-400 shrink-0" />
+							<span>Bangalore, India</span>
+						</div>
+						<div class="flex items-center gap-2.5 text-indigo-200/50 text-xs">
+							<Mail size={14} class="text-emerald-400 shrink-0" />
+							<span>hello@ecomstore.com</span>
+						</div>
+						<div class="flex items-center gap-2.5 text-indigo-200/50 text-xs">
+							<Phone size={14} class="text-emerald-400 shrink-0" />
+							<span>+91 1800-ECOM</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Bottom copyright bar -->
+			<div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+				<p class="text-indigo-200/40 text-xs">
+					© 2024 EcomStore. All rights reserved.
+				</p>
+				<div class="flex items-center gap-6 text-indigo-200/40 text-xs">
+					<span class="hover:text-yellow-300 transition-colors cursor-pointer">Privacy Policy</span>
+					<span class="hover:text-yellow-300 transition-colors cursor-pointer">Terms of Service</span>
+					<span class="hover:text-yellow-300 transition-colors cursor-pointer">Cookie Settings</span>
+				</div>
+				<div class="flex items-center gap-2 text-indigo-200/30 text-xs">
+					<Heart size={12} class="text-rose-400" />
+					<span>Made with care</span>
+				</div>
+			</div>
+		</div>
+	</footer>
 </div>
